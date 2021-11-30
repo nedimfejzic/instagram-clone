@@ -16,7 +16,6 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("LOGIN FORM FIRED");
 
     try {
       setLoading(true);

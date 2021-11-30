@@ -1,6 +1,28 @@
+import { useState } from "react";
 import { HiUserCircle } from "react-icons/hi";
+import {
+  addFollowerForUser,
+  updateFollowingForUser,
+} from "../services/firebase";
 
-const SidebarSuggestionItem = ({ username, desc }) => {
+const SidebarSuggestionItem = ({
+  username,
+  desc,
+  loggedInUserDocId,
+  userId,
+  spDocId,
+}) => {
+  const [followed, setFollowed] = useState(false);
+
+  async function handleFollowClick() {
+    await updateFollowingForUser(loggedInUserDocId, userId, false);
+    await addFollowerForUser(spDocId, loggedInUserDocId, false);
+    setFollowed(true);
+  }
+
+  if (followed) {
+    return null;
+  }
   return (
     <div className='flex items-center mt-2'>
       <div>
@@ -14,9 +36,13 @@ const SidebarSuggestionItem = ({ username, desc }) => {
           <div className='text-gray-400 text-xs '>{desc}</div>
         </div>
         <div className='pl-2'>
-          <div className='text-blue-400 text-xs  font-bold hover:text-blue-600'>
+          <button
+            type='button'
+            onClick={handleFollowClick}
+            className='text-blue-400 text-xs  font-bold hover:text-blue-600'
+          >
             Follow
-          </div>
+          </button>
         </div>
       </div>
     </div>

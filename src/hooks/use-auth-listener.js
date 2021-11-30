@@ -9,7 +9,6 @@ const useAuthListener = () => {
 
   useEffect(() => {
     const listener = firebase.auth().onAuthStateChanged((authUser) => {
-      console.log("authUser", authUser);
       if (authUser) {
         //imamo korisnika
         //mozemo ga spasiti u localStorage
