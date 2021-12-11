@@ -25,17 +25,17 @@ const SidebarSuggestionItem = ({
     return null;
   }
   return (
-    <Link to={`/p/${username}`} className='flex items-center mt-2'>
-      <div>
+    <div className='flex items-center mt-2'>
+      <Link to={`/p/${username}`}>
         <HiUserCircle className='w-11 h-11 text-gray-400' />
-      </div>
+      </Link>
       <div className='flex w-full justify-between items-center'>
-        <div className='pl-2'>
+        <Link to={`/p/${username}`} className='pl-2'>
           <div className='text-gray-800 font-semibold tracking-wide	'>
             {username}
           </div>
           <div className='text-gray-400 text-xs '>{desc}</div>
-        </div>
+        </Link>
         <div className='pl-2'>
           <button
             type='button'
@@ -46,7 +46,7 @@ const SidebarSuggestionItem = ({
           </button>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 
