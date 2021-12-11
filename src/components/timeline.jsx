@@ -3,9 +3,11 @@ import Skeleton from "react-loading-skeleton";
 import { useContext } from "react";
 import usePhotos from "../hooks/use-photos";
 import Loader from "react-loader-spinner";
+import useUser from "../hooks/use-user";
 
 const Timeline = () => {
   const { posts } = usePhotos();
+  const loggedUser = useUser();
   console.log("dobio sam slike", posts);
 
   if (posts === undefined) {
@@ -27,7 +29,7 @@ const Timeline = () => {
   return (
     <div className='mb-28'>
       {posts.map((post) => (
-        <TimelinePost key={post.docId} post={post} />
+        <TimelinePost key={post.docId} post={post} loggedUser={loggedUser} />
       ))}
     </div>
   );

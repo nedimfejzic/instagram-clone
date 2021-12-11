@@ -65,7 +65,7 @@ const Login = () => {
 
             <input
               aria-label='Enter your password.'
-              type='text'
+              type='password'
               placeholder='password'
               className='text-sm text-gray-800 px-4 py-2 w-full rounded border border-gray-300 mb-2 '
               onChange={(e) => setPassword(e.target.value)}

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { HiUserCircle } from "react-icons/hi";
+import { Link } from "react-router-dom";
 import {
   addFollowerForUser,
   updateFollowingForUser,
@@ -24,7 +25,7 @@ const SidebarSuggestionItem = ({
     return null;
   }
   return (
-    <div className='flex items-center mt-2'>
+    <Link to={`/p/${username}`} className='flex items-center mt-2'>
       <div>
         <HiUserCircle className='w-11 h-11 text-gray-400' />
       </div>
@@ -45,7 +46,7 @@ const SidebarSuggestionItem = ({
           </button>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

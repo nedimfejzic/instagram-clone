@@ -5,6 +5,9 @@ import * as ROUTES from "./constants/routes";
 import UserContext from "./context/user";
 import useAuthListener from "./hooks/use-auth-listener";
 import "react-loading-skeleton/dist/skeleton.css";
+import ProtectedRoute from "./helpers/protected.route";
+import IsLogedIn from "./helpers/is-user-loged-in";
+import Profile from "./pages/Profile";
 
 const LoginPage = lazy(() => import("./pages/Login"));
 const SignUpPage = lazy(() => import("./pages/SignUp"));
@@ -25,16 +28,20 @@ function App() {
           }
         >
           <Switch>
-            <Route path={ROUTES.DASHBOARD} exact>
+            <ProtectedRoute path={ROUTES.DASHBOARD} exact user={user}>
               <DashboardPage />
-            </Route>
+            </ProtectedRoute>
 
-            <Route path={ROUTES.LOGIN}>
+            <IsLogedIn path={ROUTES.LOGIN} user={user}>
               <LoginPage />
-            </Route>
+            </IsLogedIn>
 
-            <Route path={ROUTES.SING_UP}>
+            <IsLogedIn path={ROUTES.SING_UP} user={user}>
               <SignUpPage />
+            </IsLogedIn>
+
+            <Route path={ROUTES.PROFILE}>
+              <Profile />
             </Route>
 
             <Route>

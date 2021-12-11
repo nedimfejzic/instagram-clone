@@ -14,7 +14,7 @@ const Header = () => {
   const { firebase } = useContext(FirebaseContext);
   const { user } = useContext(UserContext);
   return (
-    <header className='h-16 bg-white border-b border-gray-300 mb-8 '>
+    <header className='h-16 bg-white border-b border-gray-300 mb-4 '>
       <div className='container mx-auto  max-w-screen-lg px-6 lg:px-0'>
         <div className='flex justify-between h-16'>
           <div className='text-gray-700 text-center flex  items-center cursor-pointer'>

@@ -4,15 +4,16 @@ import { FaRegHeart, FaRegComment, FaRegBookmark } from "react-icons/fa";
 import { RiSendPlaneLine } from "react-icons/ri";
 import { AiFillHeart } from "react-icons/ai";
 import { useContext, useEffect, useRef, useState } from "react";
-import { likeUnlikePost } from "../services/firebase";
+import { addComment, likeUnlikePost } from "../services/firebase";
 import UserContext from "../context/user";
 
-const TimelinePost = ({ post }) => {
+const TimelinePost = ({ post, loggedUser }) => {
   console.log(post);
   const { user } = useContext(UserContext);
 
   const [photoLiked, setphotoLiked] = useState(post.userLikedPhoto);
   const [numberOfLikes, setnumberLikes] = useState(post.likes.length);
+  const [comments, setComments] = useState(post.comments);
   const commentInput = useRef(null);
   const handleFocusComment = () => commentInput.current.focus();
 
@@ -20,6 +21,20 @@ const TimelinePost = ({ post }) => {
     await likeUnlikePost(user.uid, post.docId, !photoLiked);
     setnumberLikes(photoLiked ? numberOfLikes - 1 : numberOfLikes + 1);
     setphotoLiked(!photoLiked);
+  };
+
+  const handleSubmitComment = async (e) => {
+    //await likeUnlikePost(user.uid, post.docId, !photoLiked);
+    //setnumberLikes(photoLiked ? numberOfLikes - 1 : numberOfLikes + 1);
+    //setphotoLiked(!photoLiked);
+    e.preventDefault();
+    const komentar = commentInput.current.value;
+    setComments([
+      ...comments,
+      { displayName: loggedUser.user.username, comment: komentar },
+    ]);
+    addComment(post.docId, loggedUser.user.username, komentar);
+    commentInput.current.value = "";
   };
 
   return (
@@ -81,6 +96,24 @@ const TimelinePost = ({ post }) => {
         <span className='font-medium mr-1'>{post.username}</span>
         <span className='text-gray-600'>{post.caption}</span>
       </div>
+
+      <div className='mx-6 my-4'>
+        {comments.length > 2 && (
+          <div>
+            <span className='text-gray-500'>
+              View all {comments.length} comments
+            </span>
+          </div>
+        )}
+
+        {comments.slice(0, 2).map((comment) => (
+          <div key={comment.comment}>
+            <span className='font-medium mr-1'>{comment.displayName}</span>
+            <span className='text-gray-600'>{comment.comment}</span>
+          </div>
+        ))}
+      </div>
+
       {/* komentar */}
       <div className=' border-t border-gray-300 flex '>
         <div className='mx-6  my-2 flex w-full '>
@@ -93,10 +126,13 @@ const TimelinePost = ({ post }) => {
               placeholder='Add a comment..'
             ></input>
           </div>
-
-          <div className='my-2 ml-2 text-blue-200 hover:text-blue-400 '>
+          <button
+            onClick={handleSubmitComment}
+            type='button'
+            className='my-2 ml-2 text-blue-200 hover:text-blue-400 '
+          >
             Post
-          </div>
+          </button>
         </div>
       </div>
     </div>

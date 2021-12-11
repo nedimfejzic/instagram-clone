@@ -15,6 +15,23 @@ export async function doesUsernameExist(username) {
   return true;
 }
 
+export async function getUserByUsername(username) {
+  const result = await firebase
+    .firestore()
+    .collection("users")
+    .where("username", "==", username)
+    .get();
+
+  // dobijamo collection, koji ima vise documents
+  const user = result.docs.map((item) => ({
+    ...item.data(),
+    docId: item.id,
+  }));
+
+  console.log("user by useranme", user);
+  return user;
+}
+
 export async function getUserObjectByUserId(uid) {
   const result = await firebase
     .firestore()
@@ -112,4 +129,29 @@ export async function likeUnlikePost(userid, postid, pressedLike) {
         ? FieldValue.arrayUnion(userid)
         : FieldValue.arrayRemove(userid),
     });
+}
+
+export async function addComment(postDocId, displayName, comment) {
+  return firebase
+    .firestore()
+    .collection("photos")
+    .doc(postDocId)
+    .update({
+      comments: FieldValue.arrayUnion({ displayName, comment }),
+    });
+}
+
+export async function getPostsOfUserByUserID(userId) {
+  const result = await firebase
+    .firestore()
+    .collection("photos")
+    .where("userId", "==", userId)
+    .get();
+
+  const posts = result.docs.map((item) => ({
+    ...item.data(),
+    docId: item.id,
+  }));
+
+  return posts;
 }
